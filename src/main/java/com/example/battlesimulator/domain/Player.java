@@ -26,6 +26,8 @@ public class Player {
     private int healthPoint;
     @Transient
     private int fatiguePoint;
+    @Transient
+    private int initiative;
 
     // region Getter, setters
     public Long getId() {
@@ -134,4 +136,15 @@ public class Player {
         this.lockedForBattle = true;
     }
 
+    public int getInitiative() {
+        return initiative;
+    }
+
+    public void setInitiative(int initiative) {
+        this.initiative = initiative;
+    }
+
+    public void adjustInitiative(int delta) {
+        this.initiative += delta;
+    }
 }

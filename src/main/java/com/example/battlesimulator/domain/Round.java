@@ -10,50 +10,33 @@ import static com.example.battlesimulator.service.DiceRoller.roll;
 
 public class Round {
     private final List<Player> participants;
-    private final Map<Player, Integer> turnOrder = new HashMap<>();
+    private final PriorityQueue<Player> turnOrder;
 
     private final Random random = new Random();
 
     public Round(List<Player> participants) {
         this.participants = new ArrayList<>(participants);
-    }
-
-    public void prepare() {
-        for (Player participant : participants) {
-            turnOrder.put(participant, rollInitiative(participant));
-        }
+        participants.forEach(p -> p.setInitiative(rollInitiative(p)));
+        // Initialize the priority queue with a comparator that sorts players by initiative in descending order
+        turnOrder = new PriorityQueue<>(Comparator.comparingInt(Player::getInitiative).reversed());
+        turnOrder.addAll(participants);
     }
 
     public void execute() {
-        while (true) {
-            // Sort by initiative (descending)
-            LinkedHashMap<Player, Integer> sortedInitiatives = setUpTurnOrder();
-
-            // Get the first player (highest initiative)
-            Player currentPlayer = getFirstPlayer(sortedInitiatives);
-
-            // Check if the highest initiative is below 10 — end round
-            int currentInitiative = sortedInitiatives.get(currentPlayer);
-            if (currentInitiative < 10) break;
-
+        while (!turnOrder.isEmpty()) {
+            Player currentPlayer = turnOrder.poll();
+            if (currentPlayer.getInitiative() < 10) {
+                break; // End the round if the highest initiative is below 10
+            }
             // Execute the player's move
             BattleCommand command = setUpAttackCommand(currentPlayer);
             command.execute();
-
-            // Reduce initiative and re-sort
-            turnOrder.put(currentPlayer, currentInitiative - 10);
+            // Adjust initiative and reinsert into the queue if still active
+            currentPlayer.adjustInitiative(-10);
+            if (currentPlayer.getInitiative() > 0) {
+                turnOrder.add(currentPlayer);
+            }
         }
-    }
-
-    private Player getFirstPlayer(LinkedHashMap<Player, Integer> sortedInitiatives) {
-        return sortedInitiatives.entrySet().iterator().next().getKey();
-    }
-
-    private LinkedHashMap<Player, Integer> setUpTurnOrder() {
-        return turnOrder.entrySet()
-                .stream()
-                .sorted(Map.Entry.<Player, Integer>comparingByValue().reversed())
-                .collect(LinkedHashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), Map::putAll);
     }
 
     private Player chooseDefender(Player currentPlayer) {
