@@ -11,6 +11,7 @@ import static com.example.battlesimulator.service.DiceRoller.roll;
 public class Round {
     private final List<Player> participants;
     private final PriorityQueue<Player> turnOrder;
+    private final List<BattleCommand> turns = new ArrayList<>();
 
     private final Random random = new Random();
 
@@ -30,6 +31,7 @@ public class Round {
             }
             // Execute the player's move
             BattleCommand command = setUpAttackCommand(currentPlayer);
+            turns.add(command);
             command.execute();
             // Adjust initiative and reinsert into the queue if still active
             currentPlayer.adjustInitiative(-10);
@@ -38,6 +40,11 @@ public class Round {
             }
         }
     }
+
+    public List<BattleCommand> getTurns() {
+        return turns;
+    }
+
 
     private Player chooseDefender(Player currentPlayer) {
         List<Player> defenders = participants.stream()

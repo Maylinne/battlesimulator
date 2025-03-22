@@ -23,7 +23,6 @@ public class Battle {
 
         while (continueBattle) {
             Round round = new Round(participants);
-            round.prepare();
             round.execute();
             rounds.add(round);
 
