@@ -1,9 +1,8 @@
 package com.example.battlesimulator.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Random;
 
 @Entity
 public class Player {
@@ -18,11 +17,17 @@ public class Player {
     private int health;
     private int willpower;
     private int perception;
+    private boolean lockedForBattle;
+    @Transient
     private int baseAttack;
-//    private int baseDefense;
-//    private int healthPoint;
-//    private int fatiguePoint;
+    @Transient
+    private int baseDefense;
+    @Transient
+    private int healthPoint;
+    @Transient
+    private int fatiguePoint;
 
+    // region Getter, setters
     public Long getId() {
         return id;
     }
@@ -46,15 +51,6 @@ public class Player {
     public void setHealth(int health) {
         this.health = health;
     }
-
-    public int getBaseAttack() {
-        return baseAttack;
-    }
-
-    public void setBaseAttack(int baseAttack) {
-        this.baseAttack = baseAttack;
-    }
-
 
     public int getStrength() {
         return strength;
@@ -103,4 +99,39 @@ public class Player {
     public void setPerception(int perception) {
         this.perception = perception;
     }
+
+    public int getBaseDefense() {
+        return agility + speed + 75;
+    }
+
+    public int getHealthPoint() {
+        return health;
+    }
+
+    public int getFatiguePoint() {
+        return stamina + willpower;
+    }
+
+    public int getBaseAttack() {
+        return strength + agility + speed;
+    }
+
+    public int getBaseInitiative() {
+        return speed + perception;
+    }
+
+    // endregion
+
+    public boolean isLockedForBattle() {
+        return lockedForBattle;
+    }
+
+    public void setLockedForBattle(boolean lockedForBattle) {
+        this.lockedForBattle = lockedForBattle;
+    }
+
+    public void lockForBattle() {
+        this.lockedForBattle = true;
+    }
+
 }

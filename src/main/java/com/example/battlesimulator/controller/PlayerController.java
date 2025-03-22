@@ -18,6 +18,10 @@ public class PlayerController {
     public Player createPlayer(@RequestBody Player player) {
         return playerRepository.save(player);
     }
+    @PostMapping("/bulk")
+    public List<Player> createPlayers(@RequestBody List<Player> players) {
+        return playerRepository.saveAll(players);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Player> getPlayer(@PathVariable Long id) {
