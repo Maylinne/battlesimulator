@@ -18,7 +18,7 @@ public class Battle {
     public void start() {
         System.out.println("Battle begins!");
         boolean continueBattle = true;
-
+        checkParticipants(participants);
         participants.forEach(Player::lockForBattle);
 
         while (continueBattle) {
@@ -32,6 +32,14 @@ public class Battle {
         saveBattleResults();
     }
 
+    private void checkParticipants(List<Player> participants) {
+        for (Player player : participants) {
+            if (player.isLockedForBattle()) {
+                System.out.printf("Player %s is currently locked for battle. He cannot join it now.%n", player.getName());
+            }
+        }
+    }
+
     private boolean askForAnotherRound() {
         System.out.print("Do you want another round? (yes/no): ");
         String input = scanner.nextLine().trim().toLowerCase();
@@ -41,7 +49,7 @@ public class Battle {
     private void saveBattleResults() {
         System.out.println("Battle over! Saving results...");
         for (Player player : participants) {
-            player.setLockedForBattle(false);
+            player.unLockForBattle();
             System.out.printf("%s - Health: %d, Fatigue: %d%n",
                     player.getName(), player.getHealthPoint(), player.getFatiguePoint());
         }

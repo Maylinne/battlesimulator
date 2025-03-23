@@ -138,12 +138,11 @@ public class Player {
         return lockedForBattle;
     }
 
-    public void setLockedForBattle(boolean lockedForBattle) {
-        this.lockedForBattle = lockedForBattle;
-    }
-
     public void lockForBattle() {
         this.lockedForBattle = true;
+    }
+    public void unLockForBattle() {
+        this.lockedForBattle = false;
     }
 
     // Inner Builder
