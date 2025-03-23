@@ -62,7 +62,6 @@ public class Round {
         int attackRoll = roll(3, 6);
         Roll bodyRoll = new Roll(roll(1, 10), roll(1, 10));
         Weapon weapon = new Weapon(new Roll(3,6), 7);
-        int damage = weapon.rollDamage();
-        return new AttackCommand(currentPlayer, defender, attackRoll, bodyRoll, weapon, damage);
+        return new AttackCommand(currentPlayer, defender, attackRoll, bodyRoll, weapon, weapon.rollDamage());
     }
 }

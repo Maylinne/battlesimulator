@@ -1,10 +1,15 @@
 package com.example.battlesimulator.domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Battle {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Battle.class);
     private final List<Player> participants;
     private final List<Round> rounds;
     private final Scanner scanner;
@@ -35,7 +40,7 @@ public class Battle {
     private void checkParticipants(List<Player> participants) {
         for (Player player : participants) {
             if (player.isLockedForBattle()) {
-                System.out.printf("Player %s is currently locked for battle. He cannot join it now.%n", player.getName());
+                LOGGER.info("Player {} is currently locked for battle. He cannot join it now.", player.getName());
             }
         }
     }
@@ -47,10 +52,10 @@ public class Battle {
     }
 
     private void saveBattleResults() {
-        System.out.println("Battle over! Saving results...");
+        LOGGER.info("Battle over! Saving results...");
         for (Player player : participants) {
             player.unLockForBattle();
-            System.out.printf("%s - Health: %d, Fatigue: %d%n",
+            LOGGER.info("{} - Health: {}, Fatigue: {}",
                     player.getName(), player.getHealthPoint(), player.getFatiguePoint());
         }
     }
