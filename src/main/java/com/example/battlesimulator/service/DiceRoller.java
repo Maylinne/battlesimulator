@@ -12,4 +12,8 @@ public class DiceRoller {
         }
         return result;
     }
+
+    public static int roll(Roll roll) {
+        return roll(roll.getPcs(), roll.getSides());
+    }
 }

@@ -109,11 +109,9 @@ public class Player {
     public int getInitiative() {
         return initiative;
     }
-
     public void setInitiative(int initiative) {
         this.initiative = initiative;
     }
-
     public void adjustInitiative(int delta) {
         this.initiative += delta;
     }
@@ -121,23 +119,49 @@ public class Player {
     public int getBaseAttack() {
         return strength + agility + speed;
     }
-
+    public int getAttack() {
+        int modifiers = 0;
+        return getBaseAttack() + modifiers;
+    }
     public int getBaseDefense() {
         return agility + speed + 75;
     }
-
-    public int getHealthPoint() {
-        return health;
+    public int getDefense() {
+        int modifiers = 0;
+        return getBaseDefense() + modifiers;
     }
 
-    public int getFatiguePoint() {
+    public int getBaseHealthPoint() {
+        return health;
+    }
+    public int getHealthPoint() {
+        int modifier = 0;
+        return healthPoint + modifier;
+    }
+    public void setHealthPoint(int healthPoint) {
+        this.healthPoint = healthPoint;
+    }
+    public void adjustHealthPoint(int delta) {
+        this.healthPoint += delta;
+    }
+
+    public int getBaseFatiguePoint() {
         return stamina + willpower;
+    }
+    public int getFatiguePoint() {
+        int modifier = 0;
+        return fatiguePoint + modifier;
+    }
+    public void setFatiguePoint(int fatiguePoint) {
+        this.fatiguePoint = fatiguePoint;
+    }
+    public void adjustFatiguePoint(int delta) {
+        this.fatiguePoint += delta;
     }
 
     public boolean isLockedForBattle() {
         return lockedForBattle;
     }
-
     public void lockForBattle() {
         this.lockedForBattle = true;
     }
@@ -168,32 +192,26 @@ public class Player {
             this.strength = strength;
             return this;
         }
-
         public Builder agility(int agility) {
             this.agility = agility;
             return this;
         }
-
         public Builder speed(int speed) {
             this.speed = speed;
             return this;
         }
-
         public Builder stamina(int stamina) {
             this.stamina = stamina;
             return this;
         }
-
         public Builder health(int health) {
             this.health = health;
             return this;
         }
-
         public Builder willpower(int willpower) {
             this.willpower = willpower;
             return this;
         }
-
         public Builder perception(int perception) {
             this.perception = perception;
             return this;

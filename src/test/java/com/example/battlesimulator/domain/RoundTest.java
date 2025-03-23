@@ -13,9 +13,9 @@ class RoundTest {
 
     @BeforeEach
     void setUp() {
-        Player player1 = new Player.Builder("Legolas").speed(20).perception(20).build();
-        Player player2 = new Player.Builder("Aragorn").speed(10).perception(10).build();
-        Player player3 = new Player.Builder("Goblin").speed(5).perception(5).build();
+        Player player1 = new Player.Builder("Legolas").initiative(40).build();
+        Player player2 = new Player.Builder("Aragorn").initiative(20).build();
+        Player player3 = new Player.Builder("Goblin").initiative(15).build();
 
         participants = List.of(player1, player2, player3);
     }

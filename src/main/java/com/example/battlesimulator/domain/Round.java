@@ -2,7 +2,7 @@ package com.example.battlesimulator.domain;
 
 import com.example.battlesimulator.domain.battlecommand.AttackCommand;
 import com.example.battlesimulator.domain.battlecommand.BattleCommand;
-import org.springframework.data.util.Pair;
+import com.example.battlesimulator.service.Roll;
 
 import java.util.*;
 
@@ -60,7 +60,9 @@ public class Round {
     private AttackCommand setUpAttackCommand(Player currentPlayer) {
         Player defender = chooseDefender(currentPlayer);
         int attackRoll = roll(3, 6);
-        Pair<Integer, Integer> bodyRoll = Pair.of(roll(1, 10), roll(1, 10));
-        return new AttackCommand(currentPlayer, defender, attackRoll, bodyRoll);
+        Roll bodyRoll = new Roll(roll(1, 10), roll(1, 10));
+        Weapon weapon = new Weapon(new Roll(3,6), 7);
+        int damage = weapon.rollDamage();
+        return new AttackCommand(currentPlayer, defender, attackRoll, bodyRoll, weapon, damage);
     }
 }
